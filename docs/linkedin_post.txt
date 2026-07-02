@@ -1,0 +1,32 @@
+HOOK:
+🔊 A faulty bearing sounds different. But can a machine hear the difference before a human notices? Yes — here's how.
+
+POST:
+Noise, Vibration, and Harshness (NVH) quality issues cost automotive OEMs billions annually in warranty claims and recalls. Catching drivetrain faults early — before they cascade into expensive failures — is the goal of Condition-Based Monitoring (CBM).
+
+In this project, I built a 4-class drivetrain fault classifier:
+🔴 Outer-race bearing fault (periodic impulses at bearing defect frequency)
+🟠 Gear tooth defect (amplitude modulation at mesh frequency)
+🟡 Mass imbalance (sinusoidal at 1× shaft)
+🟢 Healthy baseline
+
+Method:
+→ Simulated vibration signals at 12.8 kHz sampling rate
+→ FFT-based power in 8 frequency bands + statistical features (RMS, Crest Factor, Peak)
+→ PCA for visualization — classes form clearly separable clusters
+→ Random Forest classifier
+
+Results: Perfect 4-class separation — the frequency bands are highly discriminative for these physics-based signals.
+
+This methodology directly applies to end-of-line (EOL) quality testing at OEM assembly plants.
+
+🔗 Full code + spectra on GitHub (link in comments)
+
+HASHTAGS:
+#NVH #ConditionMonitoring #MachineLearning #VibrationAnalysis #PredictiveMaintenance #Automotive #CNN #BearingFault #OpenToWork
+
+---
+IMAGE SUGGESTION:
+Use `plots/fig1_*.png` (performance chart) as the main LinkedIn image.
+Optionally combine fig1 + fig4 into a 2-panel image using any image editor.
+Keep image width > 1200px for best display in feed.
