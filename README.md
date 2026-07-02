@@ -113,5 +113,3 @@ Thesis: *Computational Intelligence for the Design of Electric Machines*
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/YOUR_USERNAME)
 
 ---
-
-*Part of a 10-project portfolio in ML for Automotive Engineering*
