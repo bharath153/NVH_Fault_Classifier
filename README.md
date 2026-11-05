@@ -1,115 +1,77 @@
-# NVH Drivetrain Fault Classifier from Vibration Signals
+# NVH Drivetrain Fault Classifier — FFT Features + Random Forest
 
-> **Classifying bearing wear, gear defects, and imbalance from vibration frequency features**
+> Classifying synthetic drivetrain vibration faults from frequency-band and statistical features
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3-orange.svg)](https://scikit-learn.org/)
-[![Domain](https://img.shields.io/badge/Domain-NVH%20&%20Predictive%20Maintenance-green.svg)]()
-[![Model](https://img.shields.io/badge/Model-Random%20Forest%20on%20FFT-band%20+%20statistical%20features-purple.svg)]()
+> [!NOTE]
+> The repository name is retained for continuity, but the current implementation is **not a CNN**. It uses engineered FFT-band/statistical features and a `RandomForestClassifier`.
 
----
+## Overview
 
-## 🎯 Project Overview
+This project demonstrates a compact NVH fault-classification workflow using synthetic vibration signals for four classes:
 
-| Item | Detail |
-|------|--------|
-| **Domain** | NVH & Predictive Maintenance |
-| **ML Model** | Random Forest on FFT-band + statistical features |
-| **Key Metric** | CV Accuracy = 100% | 4-class fault classification |
-| **Tech Stack** | Python · NumPy · scikit-learn · RandomForest · PCA · FFT-based features · Matplotlib |
+- bearing fault;
+- gear defect;
+- imbalance;
+- healthy operation.
 
----
+The pipeline generates time-domain vibration signals, extracts frequency-band and statistical features, standardizes them, and trains a Random Forest classifier.
 
-## 🧠 Problem Statement
+## Feature Pipeline
 
-Classifying bearing wear, gear defects, and imbalance from vibration frequency features. In engineering design, expensive simulations (FEA, CFD, dyno tests) limit the number of configurations that can be evaluated. Machine learning surrogates and classifiers allow rapid exploration of large design spaces, enabling smarter, faster engineering decisions.
+Each signal segment is converted into:
+- eight frequency-band magnitude features;
+- mean;
+- standard deviation;
+- RMS;
+- peak amplitude;
+- 95th-percentile absolute amplitude.
 
----
+PCA is used only for visualization of the feature space.
 
-## 📁 Repository Structure
+## Model
 
-```
-P07_NVH_CNN/
-├── src/
-│   └── train_classifier.py          # Main training & evaluation script
-├── plots/
-│   ├── fig1_*.png              # Performance plots
-│   ├── fig2_*.png              # Analysis plots
-│   ├── fig3_*.png
-│   └── fig4_*.png
-├── docs/
-│   └── technical_notes.md      # Extended methodology notes
-├── metrics.json                 # Saved evaluation metrics
-├── requirements.txt
-├── .gitignore
-└── README.md
+```text
+RandomForestClassifier
+n_estimators = 200
+train/test split = 80/20
+5-fold cross-validation
 ```
 
----
+## Data Scope
 
-## 🚀 Quick Start
+The vibration signals are **synthetic, physics-inspired demonstrations**. The project is not a validated production diagnostic model and does not use measured drivetrain test-bench data.
 
-### 1. Clone & install
+## Outputs
+
+The script exports:
+- class spectra;
+- confusion matrix;
+- PCA feature-space visualization;
+- feature-importance chart;
+- cross-validation metrics in `metrics.json`.
+
+## Run
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/P07_NVH_CNN.git
-cd P07_NVH_CNN
+git clone https://github.com/bharath153/NVH_CNN.git
+cd NVH_CNN
 pip install -r requirements.txt
-```
-
-### 2. Run the model
-```bash
 python src/train_classifier.py
 ```
 
-### 3. View results
-All plots are saved to `plots/`. Metrics are saved to `metrics.json`.
+## Repository Structure
 
----
+```text
+NVH_CNN/
+├── src/
+│   └── train_classifier.py
+├── plots/
+├── docs/
+├── metrics.json
+├── requirements.txt
+└── README.md
+```
 
-## 📊 Results & Visualizations
+## Interpretation
 
-### Model Performance
-**CV Accuracy = 100% | 4-class fault classification**
-
-| Figure | Description |
-|--------|-------------|
-| `fig1_*` | Predicted vs Actual / Confusion Matrix |
-| `fig2_*` | Feature Importance / Anomaly Scores |
-| `fig3_*` | Learning Curve / ROC Curve |
-| `fig4_*` | Design Space / Parametric Study |
-
----
-
-## 🔬 Methodology
-
-### Data Generation
-Synthetic data is generated using physics-informed equations derived from engineering fundamentals. The data generation pipeline mimics real experimental/simulation data to demonstrate production-grade methodology.
-
-### Model Architecture
-`Random Forest on FFT-band + statistical features` — selected based on dataset characteristics (size, feature type, required uncertainty quantification).
-
-### Validation Strategy
-- 80/20 train-test split with fixed random seed
-- 5-fold cross-validation for robust metric estimation
-- Held-out test set never used during hyperparameter tuning
-
----
-
-## 📚 References & Further Reading
-
-- Forrester, A., Sóbester, A., & Keane, A. (2008). *Engineering Design via Surrogate Modelling*. Wiley.
-- Scikit-learn documentation: [https://scikit-learn.org](https://scikit-learn.org)
-- Relevant SAE/IEEE papers cited in `docs/technical_notes.md`
-
----
-
-## 👤 Author
-
-**Bharath Kanaiah Parthiban**  
-M.Sc. Automotive Engineering — Politecnico di Torino (2025)  
-Thesis: *Computational Intelligence for the Design of Electric Machines*  
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/YOUR_PROFILE)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/YOUR_USERNAME)
-
----
+Very high classification accuracy in this repository should be interpreted in the context of a deliberately structured synthetic dataset. It demonstrates the signal-processing and classification workflow, not field performance on real NVH measurements.
