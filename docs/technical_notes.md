@@ -1,23 +1,39 @@
-# Technical Notes — NVH Drivetrain Fault Classifier from Vibration Signals
+# Technical Notes — NVH Fault Classification
 
-## Data Generation Methodology
-The synthetic dataset is constructed using physics-informed equations that capture the dominant engineering relationships in NVH & Predictive Maintenance. While synthetic, the data distributions and feature interactions are calibrated to match published literature values.
+## Purpose
 
-## Model Selection Rationale
-**Random Forest on FFT-band + statistical features** was chosen for the following reasons:
-- Appropriate for the dataset size and feature structure
-- Validated performance on similar engineering regression/classification tasks in literature
-- Interpretable outputs compatible with engineering design workflows
+This repository demonstrates vibration-signal feature engineering and multiclass classification for drivetrain fault diagnosis.
 
-## Hyperparameter Tuning
-Where applicable, hyperparameters were tuned via cross-validated grid or random search. Final parameters are documented in the main script.
+## Signal Generation
 
-## Known Limitations
-1. Synthetic data does not capture all real-world noise and sensor artefacts
-2. Model is validated within the training design space (interpolation); extrapolation should be treated with caution
-3. For production deployment, re-training on real experimental data is required
+Synthetic signals represent:
+- bearing fault impulses;
+- gear-mesh modulation;
+- mass imbalance;
+- healthy vibration.
 
-## References
-- Forrester, A.I.J., Sóbester, A., Keane, A.J. (2008). *Engineering Design via Surrogate Modelling: A Practical Guide*. Wiley.
-- Scikit-learn: Pedregosa et al. (2011). Journal of Machine Learning Research, 12, 2825-2830.
-- Domain-specific references are noted inline in the main script.
+Noise is added to each generated segment.
+
+## Feature Extraction
+
+The classifier does not use images or a CNN.
+
+Each time-domain segment is transformed into:
+- eight FFT frequency-band magnitude features;
+- mean;
+- standard deviation;
+- RMS;
+- peak;
+- 95th-percentile absolute amplitude.
+
+## Model
+
+A `RandomForestClassifier` is trained on standardized engineered features. PCA is used only for visualization.
+
+## Validation
+
+The workflow includes a held-out train/test split and 5-fold cross-validation.
+
+## Limitations
+
+The data are deliberately structured and synthetic, so very high accuracy should not be interpreted as field performance. Real NVH diagnostics would require measured signals across speed/load conditions, sensor locations, multiple vehicles/components and domain-shift testing.
