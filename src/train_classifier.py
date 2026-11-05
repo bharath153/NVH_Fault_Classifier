@@ -1,8 +1,8 @@
 """
-NVH Fault Classifier from Vibration Signals — CNN on Spectrograms
+NVH Fault Classifier — FFT Features + Random Forest
 =================================================================
 Classifies drivetrain faults (bearing wear, gear tooth defect, imbalance,
-healthy) from simulated vibration signals converted to spectrograms.
+healthy) from synthetic vibration signals using FFT-band and statistical features.
 Author: Bharath Kanaiah Parthiban
 """
 import numpy as np
