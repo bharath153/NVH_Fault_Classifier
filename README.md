@@ -2,9 +2,6 @@
 
 > Classifying synthetic drivetrain vibration faults from frequency-band and statistical features
 
-> [!NOTE]
-> The repository name is retained for continuity, but the current implementation is **not a CNN**. It uses engineered FFT-band/statistical features and a `RandomForestClassifier`.
-
 ## Overview
 
 This project demonstrates a compact NVH fault-classification workflow using synthetic vibration signals for four classes:
@@ -53,8 +50,8 @@ The script exports:
 ## Run
 
 ```bash
-git clone https://github.com/bharath153/NVH_CNN.git
-cd NVH_CNN
+git clone https://github.com/bharath153/NVH_Fault_Classifier.git
+cd NVH_Fault_Classifier
 pip install -r requirements.txt
 python src/train_classifier.py
 ```
@@ -62,7 +59,7 @@ python src/train_classifier.py
 ## Repository Structure
 
 ```text
-NVH_CNN/
+NVH_Fault_Classifier/
 ├── src/
 │   └── train_classifier.py
 ├── plots/
